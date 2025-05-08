@@ -3176,4 +3176,35 @@ underlying graph, and executes each of the partitioned subgraphs as a function.
     }
   }];
 }
+
+def TF_XlaSparseActivationsUnstackOp : TF_Op<"XlaSparseActivationsUnstack", [Pure]> {
+  let summary = "";
+
+  let arguments = (ins
+    TF_Float32Tensor:$stacked_activations,
+
+    ConfinedAttr<I64Attr, [IntMinValue<1>]>:$num_tables,
+    ConfinedAttr<I64ArrayAttr, [ArrayMinCount<1>]>:$features,
+    BoolAttr:$interleaved
+  );
+
+  let results = (outs
+    Variadic<TF_Tensor>:$unstacked_embedding_activations
+  );
+}
+
+def TF_XlaSparseGradientsStackOp : TF_Op<"XlaSparseGradientsStack", [Pure]> {
+  let summary = "";
+
+  let arguments = (ins
+    Variadic<TF_Tensor>:$unstacked_gradients,
+
+    ConfinedAttr<I64Attr, [IntMinValue<1>]>:$num_tables,
+    BoolAttr:$interleaved
+  );
+
+  let results = (outs
+    TF_Float32Tensor:$stacked_gradients
+  );
+}
 #endif // TF_OPS
