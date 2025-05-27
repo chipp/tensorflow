@@ -112,10 +112,16 @@ absl::StatusOr<Shape> Shape::FromProto(const ShapeProto& shape_proto) {
     state->tuple_shapes.reserve(shape_proto.tuple_shapes_size());
     for (const ShapeProto& element_shape : shape_proto.tuple_shapes()) {
       TF_ASSIGN_OR_RETURN(Shape tuple_shape, Shape::FromProto(element_shape));
-      state->tuple_shapes.emplace_back(std::move(tuple_shape));
+      state->tuple_shapes.push_back(std::move(tuple_shape));
     }
   } else if (auto* const state = shape.if_buffer_state()) {
-    state->buffer_shape.emplace_back(shape_proto.tuple_shapes(0));
+    if (shape_proto.tuple_shapes_size() != 1) {
+      return absl::InvalidArgumentError(
+          "Buffer shape must have exactly one tuple shape.");
+    }
+    TF_ASSIGN_OR_RETURN(Shape buffer_shape,
+                        Shape::FromProto(shape_proto.tuple_shapes(0)));
+    state->buffer_shape.push_back(std::move(buffer_shape));
   }
   if (shape_proto.has_layout()) {
     TF_RET_CHECK(shape.IsArray()) << "Malformed shape proto: element_type "
