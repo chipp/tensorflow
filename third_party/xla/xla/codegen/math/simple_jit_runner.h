@@ -117,6 +117,9 @@ class JitRunner {
     }
 
     alignas(32) std::array<Arg1Type, VectorSize> result_array;
+    // Fill with sentinel value to help track uninitialized values.
+    // Required to satisfy MSAN, which doesn't instrument the JITed code.
+    std::fill(result_array.begin(), result_array.end(), Arg1Type(-1));
     // Copy the arguments to make sure they are aligned. We could require
     // callers to pass aligned arrays, but the errors if they don't are hard to
     // debug, and most input arrays are likely to be small enough that a copy
