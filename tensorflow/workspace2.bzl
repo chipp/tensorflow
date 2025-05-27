@@ -150,18 +150,19 @@ def _tf_repositories():
     # LINT.IfChange
     tf_http_archive(
         name = "XNNPACK",
-        sha256 = "f66213a4d66991b2a44400f95fcd260adf6f4f7077956cdf7fce2571d6164d5e",
-        strip_prefix = "XNNPACK-6b83f69d4938da4dc9ad63c00bd13e9695659a51",
-        urls = tf_mirror_urls("https://github.com/google/XNNPACK/archive/6b83f69d4938da4dc9ad63c00bd13e9695659a51.zip"),
+        patch_file = ["//third_party:xnnpack_visionos.patch"],
+        sha256 = "745d8b73794cfe466064004f7ede01d9e9930774a392331d447727d11cd62e08",
+        strip_prefix = "XNNPACK-f64bbdddff56cca640ade7a9770e70b471eb5630",
+        urls = tf_mirror_urls("https://github.com/google/XNNPACK/archive/f64bbdddff56cca640ade7a9770e70b471eb5630.zip"),
     )
     # LINT.ThenChange(//tensorflow/lite/tools/cmake/modules/xnnpack.cmake)
 
     # XNNPack dependency.
     tf_http_archive(
         name = "KleidiAI",
-        sha256 = "88233e427be6579560073267575f00f3b5fc370a31a43bbdd87a1810bd4bf1b6",
-        strip_prefix = "kleidiai-cddf991af5de49fd34949fa39690e4e906e04074",
-        urls = tf_mirror_urls("https://gitlab.arm.com/kleidi/kleidiai/-/archive/cddf991af5de49fd34949fa39690e4e906e04074/kleidiai-cddf991af5de49fd34949fa39690e4e906e04074.zip"),
+        sha256 = "a554b6e85fb64e439e845dbf0ef13db51543592909da1684d3d9289a7a63357d",
+        strip_prefix = "kleidiai-bf2e8738a74ac8e4a3e922dc8e96eb7add962d29",
+        urls = tf_mirror_urls("https://gitlab.arm.com/kleidi/kleidiai/-/archive/bf2e8738a74ac8e4a3e922dc8e96eb7add962d29/kleidiai-bf2e8738a74ac8e4a3e922dc8e96eb7add962d29.zip"),
     )
 
     tf_http_archive(
@@ -175,14 +176,16 @@ def _tf_repositories():
         name = "pthreadpool",
         sha256 = "a4cf06de57bfdf8d7b537c61f1c3071bce74e57524fe053e0bbd2332feca7f95",
         strip_prefix = "pthreadpool-4fe0e1e183925bf8cfa6aae24237e724a96479b8",
+        patch_file = ["//third_party:pthreadpool_visionos.patch"],
         urls = tf_mirror_urls("https://github.com/Maratyszcza/pthreadpool/archive/4fe0e1e183925bf8cfa6aae24237e724a96479b8.zip"),
     )
 
     tf_http_archive(
         name = "cpuinfo",
-        sha256 = "2bf2b62eb86e2d2eaf862d0b9683a6c467a4d69fb2f7f1dc47c799809148608f",
-        strip_prefix = "cpuinfo-fa1c679da8d19e1d87f20175ae1ec10995cd3dd3",
-        urls = tf_mirror_urls("https://github.com/pytorch/cpuinfo/archive/fa1c679da8d19e1d87f20175ae1ec10995cd3dd3.zip"),
+        sha256 = "a532bcaec656417cf2b4c8e3cc7873df96107c44ea48609b94eaeb4ce190fd20",
+        strip_prefix = "cpuinfo-3fdfe44b286083567127e34a1e3060662fb607e8",
+        patch_file = ["//third_party:cpuinfo_visionos.patch"],
+        urls = tf_mirror_urls("https://github.com/pytorch/cpuinfo/archive/3fdfe44b286083567127e34a1e3060662fb607e8.zip"),
     )
 
     tf_http_archive(
@@ -742,22 +745,30 @@ def _tf_repositories():
     # https://github.com/bazelbuild/rules_apple/releases
     tf_http_archive(
         name = "build_bazel_rules_apple",
-        sha256 = "a6141240657093fa7ccc7ca1ee5a62408dd9996d1bf47bc2369b8b9faefb2698",
-        urls = tf_mirror_urls("https://github.com/bazelbuild/rules_apple/releases/download/2.3.0/rules_apple.2.3.0.tar.gz"),
+        patch_file = ["//third_party:rules_apple_visionos.patch"],
+        sha256 = "c328123c4868be233f7023762da7891e6a862d7dc27611ec7a3331d8c969a18d",
+        urls = tf_mirror_urls("https://github.com/bazelbuild/rules_apple/releases/download/3.14.0/rules_apple.3.14.0.tar.gz"),
     )
 
     # https://github.com/bazelbuild/rules_swift/releases
     tf_http_archive(
         name = "build_bazel_rules_swift",
-        sha256 = "32f95dbe6a88eb298aaa790f05065434f32a662c65ec0a6aabdaf6881e4f169f",
-        urls = tf_mirror_urls("https://github.com/bazelbuild/rules_swift/releases/download/1.5.0/rules_swift.1.5.0.tar.gz"),
+        sha256 = "bb01097c7c7a1407f8ad49a1a0b1960655cf823c26ad2782d0b7d15b323838e2",
+        urls = tf_mirror_urls("https://github.com/bazelbuild/rules_swift/releases/download/1.18.0/rules_swift.1.18.0.tar.gz"),
+    )
+
+    tf_http_archive(
+        name = "bazel_features",
+        sha256 = "95fb3cfd11466b4cad6565e3647a76f89886d875556a4b827c021525cb2482bb",
+        strip_prefix = "bazel_features-1.10.0",
+        urls = tf_mirror_urls("https://github.com/bazel-contrib/bazel_features/releases/download/v1.10.0/bazel_features-v1.10.0.tar.gz"),
     )
 
     # https://github.com/bazelbuild/apple_support/releases
     tf_http_archive(
         name = "build_bazel_apple_support",
-        sha256 = "9f7bb62c3ae889e0eae8c18458fd8764e2e537687d9a1d85885d6af980e4fc31",
-        urls = tf_mirror_urls("https://github.com/bazelbuild/apple_support/releases/download/1.6.0/apple_support.1.6.0.tar.gz"),
+        sha256 = "b53f6491e742549f13866628ddffcc75d1f3b2d6987dc4f14a16b242113c890b",
+        urls = tf_mirror_urls("https://github.com/bazelbuild/apple_support/releases/download/1.17.1/apple_support.1.17.1.tar.gz"),
     )
 
     # https://github.com/apple/swift-protobuf/releases

@@ -119,7 +119,7 @@ PACKAGE_STATIC_DEPS = [
     "@zlib//:__subpackages__",
     "@dlpack//:__subpackages__",
     "@arm_neon_2_x86_sse//:__subpackages__",
-    "@cpuinfo//:__subpackages__",
+    # "@cpuinfo//:__subpackages__",
     "@ruy//:__subpackages__",
     "@XNNPACK//:__subpackages__",
     "@pthreadpool//:__subpackages__",
@@ -490,6 +490,19 @@ config_setting(
     ),
     values = if_oss(
         {"apple_platform_type": "ios"},
+        {},
+    ),
+    visibility = ["//visibility:public"],
+)
+
+config_setting(
+    name = "visionos",
+    constraint_values = if_google(
+        ["//third_party/bazel_platforms/os:visionos"],
+        [],
+    ),
+    values = if_oss(
+        {"apple_platform_type": "visionos"},
         {},
     ),
     visibility = ["//visibility:public"],
@@ -908,6 +921,7 @@ selects.config_setting_group(
         ":fuchsia",
         ":emscripten",
         ":ios",
+        ":visionos",
     ],
     visibility = ["//visibility:public"],
 )

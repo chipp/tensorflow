@@ -1,0 +1,91 @@
+diff --git a/apple/internal/rule_support.bzl b/apple/internal/rule_support.bzl
+index 698ee256..b0e8a7ad 100644
+--- a/apple/internal/rule_support.bzl
++++ b/apple/internal/rule_support.bzl
+@@ -599,7 +599,7 @@ _RULE_TYPE_DESCRIPTORS = {
+         ),
+         # visionos_extension
+         apple_product_type.app_extension: _describe_rule_type(
+-            allowed_device_families = ["reality"],
++            allowed_device_families = ["vision"],
+             allows_locale_trimming = True,
+             bundle_extension = ".appex",
+             bundle_package_type = bundle_package_type.extension_or_xpc,
+@@ -614,7 +614,7 @@ _RULE_TYPE_DESCRIPTORS = {
+         ),
+         # visionos_framework
+         apple_product_type.framework: _describe_rule_type(
+-            allowed_device_families = ["reality"],
++            allowed_device_families = ["vision"],
+             bundle_extension = ".framework",
+             bundle_package_type = bundle_package_type.framework,
+             codesigning_exceptions = _CODESIGNING_EXCEPTIONS.sign_with_provisioning_profile,
+@@ -630,14 +630,14 @@ _RULE_TYPE_DESCRIPTORS = {
+         ),
+         # visionos_static_framework
+         apple_product_type.static_framework: _describe_rule_type(
+-            allowed_device_families = ["reality"],
++            allowed_device_families = ["vision"],
+             bundle_extension = ".framework",
+             codesigning_exceptions = _CODESIGNING_EXCEPTIONS.skip_signing,
+             product_type = apple_product_type.static_framework,
+         ),
+         # visionos_ui_test
+         apple_product_type.ui_test_bundle: _describe_rule_type(
+-            allowed_device_families = ["reality"],
++            allowed_device_families = ["vision"],
+             bundle_extension = ".xctest",
+             bundle_package_type = bundle_package_type.bundle,
+             product_type = apple_product_type.ui_test_bundle,
+@@ -653,7 +653,7 @@ _RULE_TYPE_DESCRIPTORS = {
+         ),
+         # visionos_unit_test
+         apple_product_type.unit_test_bundle: _describe_rule_type(
+-            allowed_device_families = ["reality"],
++            allowed_device_families = ["vision"],
+             bundle_extension = ".xctest",
+             bundle_package_type = bundle_package_type.bundle,
+             product_type = apple_product_type.unit_test_bundle,
+diff --git a/apple/internal/xcframework_rules.bzl b/apple/internal/xcframework_rules.bzl
+index db2acf49..5328d3bf 100644
+--- a/apple/internal/xcframework_rules.bzl
++++ b/apple/internal/xcframework_rules.bzl
+@@ -668,6 +668,7 @@ def _apple_xcframework_impl(ctx):
+             processor_partials.append(
+                 partials.swift_framework_partial(
+                     actions = actions,
++                    avoid_deps = ctx.attr.avoid_deps,
+                     bundle_name = bundle_name,
+                     label_name = label.name,
+                     output_discriminator = library_identifier,
+@@ -869,6 +870,13 @@ A list of strings indicating which architecture should be built for the macOS pl
+ A dictionary of strings indicating which platform variants should be built for the tvOS platform (
+ `device` or `simulator`) as keys, and arrays of strings listing which architectures should be
+ built for those platform variants (for example, `x86_64`, `arm64`) as their values.
++""",
++            ),
++            "visionos": attr.string_list_dict(
++                doc = """
++A dictionary of strings indicating which platform variants should be built for the visionOS platform (
++`device` or `simulator`) as keys, and arrays of strings listing which architectures should be
++built for those platform variants (for example, `arm64`) as their values.
+ """,
+             ),
+             "minimum_deployment_os_versions": attr.string_dict(
+@@ -915,6 +923,16 @@ An optional single .h file to use as the umbrella header for this framework. Usu
+ will have the same name as this target, so that clients can load the header using the #import
+ <MyFramework/MyFramework.h> format. If this attribute is not specified (the common use case), an
+ umbrella header will be generated under the same name as this target.
++""",
++            ),
++            "avoid_deps": attr.label_list(
++                aspects = [apple_resource_aspect],
++                allow_files = True,
++                cfg = transition_support.xcframework_transition,
++                mandatory = False,
++                doc = """
++A list of library targets on which this framework depends in order to compile, but the transitive
++closure of which will not be linked into the framework's binary, nor bundled into final XCFramework.
+ """,
+             ),
+         },

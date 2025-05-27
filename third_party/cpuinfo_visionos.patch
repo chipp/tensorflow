@@ -1,0 +1,38 @@
+diff --git a/BUILD.bazel b/BUILD.bazel
+old mode 100755
+new mode 100644
+index 2c6375f..a560912
+--- a/BUILD.bazel
++++ b/BUILD.bazel
+@@ -160,6 +160,8 @@ cc_library(
+         ":watchos_arm64_32": COMMON_SRCS + MACH_SRCS + MACH_ARM_SRCS,
+         ":tvos_x86_64": COMMON_SRCS + X86_SRCS + MACH_SRCS + MACH_X86_SRCS,
+         ":tvos_arm64": COMMON_SRCS + MACH_SRCS + MACH_ARM_SRCS,
++        ":visionos_arm64": COMMON_SRCS + MACH_SRCS + MACH_ARM_SRCS,
++        ":visionos_sim_arm64": COMMON_SRCS + MACH_SRCS + MACH_ARM_SRCS,
+         ":emscripten_wasm": COMMON_SRCS + EMSCRIPTEN_SRCS,
+     }),
+     copts = select({
+@@ -452,6 +454,22 @@ config_setting(
+     },
+ )
+
++config_setting(
++    name = "visionos_arm64",
++    values = {
++        "apple_platform_type": "visionos",
++        "cpu": "visionos_arm64",
++    },
++)
++
++config_setting(
++    name = "visionos_sim_arm64",
++    values = {
++        "apple_platform_type": "visionos",
++        "cpu": "visionos_sim_arm64",
++    },
++)
++
+ config_setting(
+     name = "emscripten_wasm",
+     values = {

@@ -7,7 +7,7 @@ load("@build_bazel_rules_apple//apple:ios.bzl", "ios_static_framework")
 load("//tensorflow:tensorflow.bzl", "clean_dep")
 
 # LINT.IfChange
-TFL_MINIMUM_OS_VERSION = "12.0"
+TFL_MINIMUM_IOS_VERSION = "12.0"
 # LINT.ThenChange(
 #   TensorFlowLiteC.podspec.template,
 #   TensorFlowLiteSelectTfOps.podspec.template,

@@ -228,6 +228,19 @@ config_setting(
     visibility = ["//visibility:public"],
 )
 
+config_setting(
+    name = "visionos",
+    constraint_values = if_google(
+        ["//third_party/bazel_platforms/os:visionos"],
+        [],
+    ),
+    values = if_oss(
+        {"apple_platform_type": "visionos"},
+        {},
+    ),
+    visibility = ["//visibility:public"],
+)
+
 # TODO(jakeharmon): Remove equivalent from tensorflow/BUILD
 # Config setting used when building for products
 # which requires restricted licenses to be avoided.

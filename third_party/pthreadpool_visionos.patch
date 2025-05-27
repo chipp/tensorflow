@@ -1,0 +1,50 @@
+diff --git a/BUILD.bazel b/BUILD.bazel
+index f55a493..f21b87c 100755
+--- a/BUILD.bazel
++++ b/BUILD.bazel	
+@@ -45,6 +45,7 @@ cc_library(
+         ":ios": INTERNAL_HDRS + GCD_IMPL_SRCS,
+         ":watchos": INTERNAL_HDRS + GCD_IMPL_SRCS,
+         ":tvos": INTERNAL_HDRS + GCD_IMPL_SRCS,
++        ":visionos": INTERNAL_HDRS + GCD_IMPL_SRCS,
+         ":windows_x86_64": INTERNAL_HDRS + WINDOWS_IMPL_SRCS,
+         "//conditions:default": INTERNAL_HDRS + PTHREADS_IMPL_SRCS,
+     }) + select({
+@@ -346,7 +347,6 @@ config_setting(
+ config_setting(
+     name = "ios",
+     values = {
+-        "crosstool_top": "@bazel_tools//tools/cpp:toolchain",
+         "apple_platform_type": "ios",
+     },
+ )
+@@ -370,7 +370,6 @@ config_setting(
+ config_setting(
+     name = "watchos",
+     values = {
+-        "crosstool_top": "@bazel_tools//tools/cpp:toolchain",
+         "apple_platform_type": "watchos",
+     },
+ )
+@@ -394,7 +393,6 @@ config_setting(
+ config_setting(
+     name = "tvos",
+     values = {
+-        "crosstool_top": "@bazel_tools//tools/cpp:toolchain",
+         "apple_platform_type": "tvos",
+     },
+ )
+@@ -407,6 +405,13 @@ config_setting(
+     },
+ )
+ 
++config_setting(
++    name = "visionos",
++    values = {
++        "apple_platform_type": "visionos",
++    },
++)
++
+ config_setting(
+     name = "windows_x86_64",
+     values = {

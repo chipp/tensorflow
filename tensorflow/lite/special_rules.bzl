@@ -108,6 +108,7 @@ def if_nnapi(supported, not_supported = [], supported_android = None):
     return select({
         clean_dep("//tensorflow:emscripten"): not_supported,
         clean_dep("//tensorflow:ios"): not_supported,
+        clean_dep("//tensorflow:visionos"): not_supported,
         clean_dep("//tensorflow:macos"): not_supported,
         clean_dep("//tensorflow:windows"): not_supported,
         clean_dep("//tensorflow:android"): supported_android,

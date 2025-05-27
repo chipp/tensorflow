@@ -1,0 +1,36 @@
+diff --git a/build_config/BUILD.bazel b/build_config/BUILD.bazel
+index 6352a43..160a17a 100755
+--- a/build_config/BUILD.bazel
++++ b/build_config/BUILD.bazel
+@@ -248,6 +248,22 @@ config_setting(
+     },
+ )
+ 
++config_setting(
++    name = "visionos_arm64",
++    values = {
++        "apple_platform_type": "visionos",
++        "cpu": "visionos_arm64",
++    },
++)
++
++config_setting(
++    name = "visionos_sim_arm64",
++    values = {
++        "apple_platform_type": "visionos",
++        "cpu": "visionos_sim_arm64",
++    },
++)
++
+ # Duummy lexan config to avoid bazel errors.
+ config_setting(
+     name = "windows_lexan",
+@@ -285,6 +301,8 @@ selects.config_setting_group(
+         ":linux_arm64",
+         ":macos_arm64",
+         ":tvos_arm64",
++        ":visionos_arm64",
++        ":visionos_sim_arm64",
+         ":watchos_arm64_32",
+     ],
+ )

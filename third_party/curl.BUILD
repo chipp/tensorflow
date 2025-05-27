@@ -367,6 +367,9 @@ cc_library(
         "@local_xla//xla/tsl:ios": [
             "lib/vtls/sectransp.c",
         ],
+        "@local_xla//xla/tsl:visionos": [
+            "lib/vtls/sectransp.c",
+        ],
         "@local_xla//xla/tsl:windows": CURL_WIN_SRCS,
         "//conditions:default": [
         ],
@@ -425,6 +428,7 @@ cc_library(
             "-Wl,Security",
         ],
         "@local_xla//xla/tsl:ios": [],
+        "@local_xla//xla/tsl:visionos": [],
         "@local_xla//xla/tsl:windows": [
             "-DEFAULTLIB:ws2_32.lib",
             "-DEFAULTLIB:advapi32.lib",
@@ -440,6 +444,7 @@ cc_library(
         "@zlib",
     ] + select({
         "@local_xla//xla/tsl:ios": [],
+        "@local_xla//xla/tsl:visionos": [],
         "@local_xla//xla/tsl:windows": [],
         "//conditions:default": [
             "@boringssl//:ssl",

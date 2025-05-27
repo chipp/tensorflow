@@ -63,6 +63,9 @@ load("@//tensorflow:workspace2.bzl", "tf_workspace2")
 
 tf_workspace2()
 
+load("@bazel_features//:deps.bzl", "bazel_features_deps")
+bazel_features_deps()
+
 load("@//tensorflow:workspace1.bzl", "tf_workspace1")
 
 tf_workspace1()
