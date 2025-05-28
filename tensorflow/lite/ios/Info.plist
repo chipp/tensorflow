@@ -18,5 +18,9 @@
         <string>FMWK</string>
         <key>CFBundleSignature</key>
         <string>????</string>
+        <key>CFBundleShortVersionString</key>
+        <string>2.18</string>
+        <key>CFBundleVersion</key>
+        <string>1729728000</string>
 </dict>
 </plist>
