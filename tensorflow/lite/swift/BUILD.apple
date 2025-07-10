@@ -157,7 +157,7 @@ apple_xcframework(
         ],
         "device": ["arm64"],
     },
-    macos = ["arm64"],
+    macos = ["arm64", "x86_64"],
     visionos = {
         "simulator": ["arm64"],
         "device": ["arm64"],
